@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>MAPGEO-06-04</title>
+    <link rel="stylesheet" href="libs/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .leaflet-interactive {
+            stroke: #000;
+            stroke-width: 1;
+            /*fill: #f00; */
+            fill-opacity: 0.8;
+        }
+        .choroplethe { 
+            display: inline-block;
+            border: 1px solid black;
+            width: 20px;
+            height: 10px;
+            margin: 0 5px 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <p class="nav"><a href="index.html">&equiv;</a></p>
+
+    <h1>Europe, contours</h1>
+
+    <div id="mapid"></div>
+
+    <script src="libs/leaflet.js"></script>
+    <script src="js/app.js"></script>
+    <script src="data/data.js"></script>
+
+    <script>
+    let centre = {lat: 0, lng: 0};
+
+    let classes = { 
+        q1: 4041195,
+        q2: 8634966,
+        q3: 18090854
+    };
+    let couleurs = { 
+        q1: '#ffffb2',
+        q2: '#fecc5c',
+        q3: '#fd8d3c',
+        max: '#e31a1c'
+    }
+
+    let map = L.map('mapid').setView(centre, 5);
+
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+}).addTo(map); 
+
+    document.addEventListener("DOMContentLoaded", function() {
+        chargerDonnees();
+    })
+
+    async function chargerDonnees() {
+        let url = 'data/europe.geojson';
+        let resp = await fetch(url);
+        let datas = await resp.json();
+
+        // console.log(datas);
+  
+        let geojson = L.geoJSON(datas, {
+
+            style: function(feature) {
+                let popu = feature.properties.POP2005;
+                if (popu < classes.q1) {
+                    return {fillColor: couleurs.q1}
+                } else if (popu < classes.q2) {
+                    return {fillColor: couleurs.q2}
+                } else if (popu < classes.q3) {
+                    return {fillColor: couleurs.q3}
+                } else {
+                    return {fillColor: couleurs.max}
+                } 
+            },
+            onEachFeature: function(feature, layer) {
+                // console.log(feature.properties);
+                let pays = feature.properties.NAME;
+                let popu = feature.properties.POP2005;
+                // console.log(pays, popu);
+                layer.bindPopup(`
+                    <b>${pays}</b><br>
+                    ${popu.toLocaleString()}
+                    `);
+            }
+        }).addTo(map);
+
+        map.fitBounds(geojson.getBounds());
+    }
+
+    let legende = L.control({position: 'bottomleft'}) ; 
+    legende.onAdd = function(map) { 
+        let div = L.DomUtil.create('div', 'legende');
+        div.innerHTML = `<h3>
+        <b>Population estimée</b><br>
+        <span class="choroplethe q1"></span> Pas Beaucoup<br>
+        <span class="choroplethe q2"></span> Un peu plus <br>
+        <span class="choroplethe q3"></span> Encore plus<br>
+        <span class="choroplethe q4"></span> Beaucoup plus<br>
+        </h3>`;
+        return div ; 
+    };
+    legende.addTo(map);
+
+
+   </script>
+</body>
+</html>

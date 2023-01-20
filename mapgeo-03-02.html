@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <title>MAPGEO-03-02</title>
+   <link rel="stylesheet" href="libs/leaflet.css" />
+   <link rel="stylesheet" href="css/style.css">
+   <style>
+        .zoom {
+            font-size: 30px;
+            color: red;
+        }
+   </style>
+</head>
+<body>
+
+   <p class="nav"><a href="index.html">&equiv;</a></p>
+
+   <h1>Marqueurs personnalisé</h1>
+
+   <div id="mapid"></div>
+
+   <script src="libs/leaflet.js"></script>
+   <script src="js/app.js"></script>
+   <script src="data/data.js"></script>
+
+   <script>
+   let centre = {lat: 48.9064, lng: 2.2483};
+   let piscine = {lat: 48.9054, lng: 2.2437};
+   let kfc = {lat: 44.83316385763209, lng:-0.6657503299910884};
+
+   let map = L.map('mapid').setView( centre , 15);
+
+   L.tileLayer(layerOSM.url, { attribution: layerOSM.attribution }).addTo(map);
+   
+   L.marker(centre)
+   .addTo(map)
+   .bindPopup("<p class='zoom'>Centre</p>")
+   .openPopup();
+   
+   L.marker(piscine)
+   .addTo(map)
+   .bindPopup("<p class='zoom'>La piscine</p>");
+   
+    let markerBoiselle = L.marker([48.9083, 2.2403]).addTo(map);
+   
+    markerBoiselle.bindPopup("<p class='zoom'>Square Boiselle</p>")
+
+    let popMediatheque = L.popup().setLatLng([48.9098, 2.24542])
+    popMediatheque.setContent("<p class='zoom'>Mediathèque</p>");
+    popMediatheque.openOn(map);
+
+    //définir l'icone de notre marque 
+    let icoRed = L.icon({
+        iconUrl: 'img/marker-red.svg',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [0, -41]
+    });
+    let icoGreen = L.icon({
+        iconUrl: 'img/marker-green.svg',
+        iconSize: [50, 82],
+        iconAnchor: [25, 82],
+        popupAnchor: [0, -62]
+    });
+
+    // utiliser l'icone
+    L.marker([48.9071, 2.2404],{
+        icon: icoGreen
+    })
+    .addTo(map).bindPopup("<p class='zoom'>Belgique</p>");
+
+    L.circleMarker([48.9078, 2.2475], {
+        radius: 10,
+        color: '#FF8C00',
+        fillColor: '#00ff8C',
+        filleOpacity: 0.5,
+        wight: 4
+    })
+    .addTo(map)
+    .bindPopup("<p class='zoom'>Angle de rue</p>");
+   
+    let div = L.divIcon({
+        className : `panneau`,
+        html: `<b>Bonjour</b>`,
+        iconSize: [100,50]
+    });
+    L.marker([48.9088, 2.2514], {
+        icon: div
+    })
+    .addTo(map);
+
+   </script>
+</body>
+</html>

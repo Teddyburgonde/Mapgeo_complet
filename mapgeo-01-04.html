@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAPGEO-01-04</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <p class="nav"><a href="index.html">&equiv;</a></p>
+    
+    <h1>Rappels JS</h1>
+
+    <div id="mapid"></div>
+
+    <script>
+        console.log("coucou");
+    
+    //Variables 
+    let prenom =`Richard`;
+    let age = 24.5;
+    console.log(prenom, age);
+    //json
+    let centre = { 
+        lat: 12,
+        lng:12
+    };
+    //array 
+    let coordonnees = [12, 12];
+    console.log(centre);
+    console.log(coordonnees);
+
+    let pois = [
+        {lat: 1, lng: 2, nom:"Paris"},
+        {lat:4, lng:6, nom:"Bruxelles"},
+        {lat:-4, lng:16, nom:"NY"},
+    ];
+    for(let poi of pois) {
+        console.log(`Ville: ${poi.nom} (${poi.lat}, ${poi.lng})`
+        );
+    }
+
+    function bonjour(prenom) {
+        console.log(`Bonjour ${prenom}!`);
+    }
+    bonjour("damien");
+
+    let marqueur = L.xxxx(1234, "xxx", {
+        color: "black",
+        weight:5
+    });
+    </script>
+    
+</body>
+</html>

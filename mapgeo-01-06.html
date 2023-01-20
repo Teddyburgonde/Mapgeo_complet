@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAPGEO-01-06</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <p class="nav"><a href="index.html">&equiv;</a></p>
+    <h1>Rappels JS (2)</h1>
+    <div id="mapid"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            chargerDonnees();
+        });
+
+        async function chargerDonnees(){
+            //URL de L'API ou fichier local
+            let urlData = `data/pmi.json`;
+            //charger les données
+            let resp = await fetch(urlData);
+            // transferer les données dans une variable 
+            let datas = await resp.json();
+
+            //console.log(datas);
+
+
+
+            for (let data of datas) {
+                let d = data ;
+                console.log(`${d.adresse} ${d.cp} ${d.commune}` );
+            }
+        }
+    </script>
+</body>
+</html>

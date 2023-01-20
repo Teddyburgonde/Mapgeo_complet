@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <title>MAPGEO-05-02</title>
+   <link rel="stylesheet" href="libs/leaflet.css" />
+   <link rel="stylesheet" href="css/style.css">
+   <style>
+
+   </style>
+</head>
+<body>
+
+   <p class="nav"><a href="index.html">&equiv;</a></p>
+   <h1>Infos</h1>
+
+   <div id="mapid"></div>
+
+   <script src="libs/leaflet.js"></script>
+   <script src="js/app.js"></script>
+   <script src="data/data.js"></script>
+
+   <script>
+   let centre = {lat: 48.9064, lng: 2.2483};
+
+   let map = L.map('mapid').setView( centre , 16);
+
+   L.tileLayer(layerOSM.url, { attribution: layerOSM.attribution }).addTo(map);
+
+    map.on('click', function(e) {
+        let lat = parseFloat(e.latlng.lat).toFixed(4) ;
+        let lng = parseFloat(e.latlng.lng).toFixed(4) ;
+
+        L.marker(e.latlng).addTo(map)
+            .bindPopup(`<h1>[${lat} , ${lng}]</h1>`)
+            .openPopup();
+
+        map.flyTo(e.latlng, 17);
+
+        console.log(lat, lng)
+   })
+   
+   </script>
+</body>
+</html>

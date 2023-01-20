@@ -1,0 +1,59 @@
+// ne fonctionne pas 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <title>MAPGEO-04-04</title>
+   <link rel="stylesheet" href="libs/leaflet.css" />
+   <link rel="stylesheet" href="css/style.css">
+   <style>
+
+   </style>
+</head>
+<body>
+
+   <p class="nav"><a href="index.html">&equiv;</a></p>
+   <h1>Chaville</h1>
+
+   <div id="mapid"></div>
+
+   <p>Plan de Chavile en 1900 <u><a href="https://
+    opendata.hauts-de-seine.fr/explore/dataset/cartes-
+    postales">Open Data HDS</a></u> - 92370</p>
+
+   <script src="libs/leaflet.js"></script>
+   <script src="js/app.js"></script>
+   <script src="data/data.js"></script>
+
+   <script>
+
+    let map = L.map('mapid', {
+        minZoom: 1, 
+        maxZoom: 4,
+        center: [0.0],
+        zoom: 1,
+        crs: L.CRS.Simple // Coordinate Reference System : simple = longitude/latitude deviennent des x/y simples... 
+    });
+
+    let image = { 
+        largeur : 3574,
+        hauteur : 2369,
+        src : 'img/chaville.jpg'
+    }
+
+    // calculer les points hg/bd en coordonnées x/y
+    let positionHautGauche = map.unproject([image.largeur, 0], map.getMaxZoom() -1);
+    let positionBasDroite = map.unproject([0, image.hauteur, 0], map.getMaxZoom() -1);
+
+    //fixer les limites de l'image
+    let bounds = new L.LatLngBounds(positionBasDroite, positionHautGauche);
+
+    L.imageOverlay(image.src, bounds).addTo(map);
+
+    map.setMaxBounds(bounds);
+   
+   L. marker([-139.2447, 197.5625]).addTo(map);
+    </script>
+</body>
+</html>

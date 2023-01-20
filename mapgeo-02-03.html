@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAPGEO-02-01</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <p class="nav"><a href="index.html">&equiv;</a></p>
+    <h1>My Google map </h1>
+    <div id="mapid"></div>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+    // let centre = [48.9070, 2.2468]; // tableau LAT, LNG
+    // let centre = {lat: 45.059655614250076, lng:-0.7166935159129556};
+    let centre = {lat: 48.9070, lng:2.2468};
+    
+    let map = L.map('mapid').setView(centre, 16);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker(centre).addTo(map);
+
+    L.marker({lat: 48.9054, lng: 2.2437}).addTo(map);
+    L.marker([48.9083, 2.2403]).addTo(map);
+
+
+    
+    </script>
+</body>
+</html>

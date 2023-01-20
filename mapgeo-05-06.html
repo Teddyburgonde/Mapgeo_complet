@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>MAPGEO-05-06</title>
+    <link rel="stylesheet" href="libs/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+    </style>
+</head>
+<body>
+
+    <p class="nav"><a href="index.html">&equiv;</a></p>
+
+    <h1>Infos sur la carte</h1>
+
+    <div id="mapid"></div>
+
+    <script src="libs/leaflet.js"></script>
+    <script src="js/app.js"></script>
+    <script src="data/data.js"></script>
+
+    <script>
+    let centre = {lat: 48.9064, lng: 2.2483};
+
+    let map = L.map('mapid').setView( centre , 16);
+
+    L.tileLayer(layerOSM.url, { attribution: layerOSM.attribution }).addTo(map);
+
+    let marqueur = L.marker(centre, { 
+        draggable: true
+    }).addTo(map);
+    
+    marqueur.on('moveend', function(e) {
+        console.log( marqueur.getLatLng() );
+    });
+
+    map.on('click', function(e){
+        console.log(e.latlng );
+        marqueur.setLatLng(e.latlng);
+        map.flyTo(e.latlng);
+        afficherInfos();
+    });
+    map.on('zoomend', function(e) {
+        afficherInfos();
+    });
+    map.on('moveend', function(e) {
+        afficherInfos();
+    });
+
+    function afficherInfos() {
+        console.clear();
+        console.log( map.getCenter() );
+        console.log( map.getZoom() );
+        console.log( map.getSize() );
+
+        let limites = map.getBounds();
+        console.log( limites);
+        console.log( limites.getNorth() );
+        console.log( limites.getWest() );
+        console.log( limites.getSouth() );
+        console.log( limites.getEast() );
+
+        console.log( limites.getNorthWest() );
+        console.log( limites.getNorthEast() );
+
+    }
+
+
+   
+   </script>
+</body>
+</html>
